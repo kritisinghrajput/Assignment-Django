@@ -1,0 +1,32 @@
+# AI Usage
+
+## Tools used
+- Claude (Anthropic) — planning, architecture guidance, code review
+- [Antigravity + whatever model it used] — code generation
+
+## Prompts given
+[Paste your actual prompts here, in order — the scaffolding prompt, plus any follow-up prompts like the "walk me through the packing loop" one]
+
+## What I accepted
+[e.g. Overall project structure, model design, the FFD algorithm design, most of the serializer/view code]
+
+## What I rejected or modified
+- Removed the redundant `weight_eligible` re-filter in `box_selector.py`
+  that duplicated a condition already applied in `eligible`
+- Removed unused imports (`itertools`, `pytest`)
+- [Add your own — e.g. did you change the on_delete behavior, add validators, adjust the transaction/order-creation flow?]
+
+## Mistakes the AI made
+- Initial test fixture for the multi-box test used a box with
+  `internal_height=8` against a 10cm-tall product — dimensionally
+  infeasible, so the test always hit the "cannot fulfill" path instead of
+  testing the intended multi-box scenario. Caught by reading the failing
+  test output, traced to the fixture, and fixed the box dimensions.
+- [Add anything else you found]
+
+## How I verified the final code
+- Ran full test suite (`pytest boxing/tests/ -v`) — 17/17 passing
+- Manually traced the packing algorithm against test fixtures by hand
+  (e.g. confirmed the 1331 cm³ box correctly rejects a second 1000 cm³ item)
+- Reviewed every file for logic correctness, not just accepted output
+- [Add your own manual testing, e.g. curl requests against the running server]
